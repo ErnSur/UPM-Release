@@ -1,0 +1,16 @@
+name: 'UPM Release'
+author: 'ErnSur'
+description: 'Create a new commit with package files at the root of the repository. Moves "branch_name" to latest upm commit and adds a version tag to it.'
+inputs:
+  branch_name:
+    description: 'Name of the branch that will point to the latest package version'
+    required: true
+    default: 'upm'
+  package_directory:
+    description: 'Path to the package files. Usually something like: "Packages/com.company.package-name"'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: . ./Update-UPMBranch.ps1 -BranchName ${{ inputs.branch_name }} -PackageDirectory ${{ inputs.package_directory }}
+    shell: pwsh
