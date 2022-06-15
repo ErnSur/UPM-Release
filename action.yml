@@ -12,5 +12,5 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: . ./Update-UPMBranch.ps1 -BranchName ${{ inputs.branch_name }} -PackageDirectory ${{ inputs.package_directory }}
+    - run: . ${{ github.action_path }}/Update-UPMBranch.ps1 -BranchName ${{ inputs.branch_name }} -PackageDirectory ${{ inputs.package_directory }}
       shell: pwsh
