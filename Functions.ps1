@@ -18,7 +18,7 @@ function Remove-AllExceptPackage([Parameter(Mandatory)] $PackageDirectory) {
 
 function Get-FilesToDelete() {
     return Get-ChildItem -Force | 
-    Where-Object Name -notin '.git', 'Packages' |
+    Where-Object Name -notin '.git', 'Packages', '.github' |
     Select-Object -ExpandProperty FullName |
     Sort-Object Length -Descending
 }
