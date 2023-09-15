@@ -9,16 +9,17 @@ function Update-GitCreds {
 }
 
 function Remove-AllExceptPackage([Parameter(Mandatory)] $PackageDirectory) {
-    $filesToRemove = Get-FilesToDelete
+    $filesToRemove = Get-FilesToDelete $PackageDirectory
     $filesToRemove | Remove-Item -Recurse -Force
-    ex git mv $PackageDirectory/* ./
-    Remove-Item -Path "Packages/" -Recurse -Force
+    ex git mv "$PackageDirectory/*" "./"
+    Remove-Item -Path "$PackageDirectory" -Recurse -Force
     ex git add .
 }
 
-function Get-FilesToDelete() {
+function Get-FilesToDelete([Parameter(Mandatory)] $PackageDirectory) {
     return Get-ChildItem -Force | 
-    Where-Object Name -notin '.git', 'Packages', '.github' |
+    Where-Object Name -notin '.git', '.github' |
+    Where-Object { $PackageDirectory -notlike "$($_.Name)*" } |
     Select-Object -ExpandProperty FullName |
     Sort-Object Length -Descending
 }
